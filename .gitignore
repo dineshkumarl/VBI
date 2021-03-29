@@ -4,3 +4,4 @@ package-lock.json
 
 client/package.json
 client/node_mudules/
+.vscode/launch.json
