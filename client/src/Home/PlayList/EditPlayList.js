@@ -17,16 +17,19 @@ const mockSongList = [{}, {}, {}, {}]
 const Edit =()=>{
     const [songsList, setSongsList] = useState(()=>mockSongList);
 
+    const [isOn, setToggleOn] = useState(false);
+
     const getSongListItems = useCallback(()=>{
         return songsList.map((value, i)=><SongListItemWithAction key={i} actionComponent={()=><Link>Delete</Link>}></SongListItemWithAction>)
-    },[songsList])
+    },[songsList]);
+
     const id="123";
     
     return (<Box>
                 <Flex>
                     <Spacer />
                     <Box m="2" mr="10">
-                        <ToggleButton isOn>Shuffle Play</ToggleButton>
+                        <ToggleButton mr="4" isOn={isOn} onChange={()=>setToggleOn(!isOn)}>Shuffle Play {isOn? "on" :"off"}</ToggleButton>
                         <PlayListActionButton as={RouteLink} to={`/playlists/${id}/addsongs`}>Add Song</PlayListActionButton>
                     </Box>
                 </Flex>

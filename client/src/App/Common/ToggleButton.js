@@ -1,10 +1,10 @@
-import { Button, Stack } from "@chakra-ui/react";
+import { Button, Stack, Box } from "@chakra-ui/react";
 
-export const ToggleButton = ({children, isOn, onChange})=>{
+export const ToggleButton = ({children, isOn, onChange, ...rest})=>{
     return (
-        <Stack>
-        {(isOn)&&(<Button onClick={onChange}>{children}</Button>)}
-        {(!isOn)&&(<Button onClick={onChange} variant="outline">{children}</Button>)}
-    </Stack>
+        <Box as="span" {...rest}>
+        {(isOn)&&(<Button colorScheme="teal" onClick={onChange}>{children}</Button>)}
+        {(!isOn)&&(<Button colorScheme="teal" onClick={onChange} variant="outline">{children}</Button>)}
+    </Box>
     )
 }
