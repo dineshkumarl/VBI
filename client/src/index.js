@@ -5,14 +5,17 @@ import {
 } from "react-router-dom";
 import App from './App';
 import {AuthProvider} from './Login/context.js';
+import { ChakraProvider } from "@chakra-ui/react"
 // import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
+    <ChakraProvider>
       <AuthProvider>
         <Router>
             <App />
         </Router>
-      </AuthProvider>,
+      </AuthProvider>
+    </ChakraProvider>,
   document.getElementById('root')
 );
 

@@ -1,31 +1,34 @@
 import {
     Switch,
-    Route,
-    Link
+    Route
   } from "react-router-dom";
 import PrivateRoute from '../Login/PrivateRoute';
-import PlayLists from "./PlayList";
+import EditPlayList from './PlayList/EditPlayList';
+import PlayLists from "./PlayList/PlayList";
 import SongList from './SongList';
+import Navigation from './Navigation';
+import { Center, Box } from "@chakra-ui/layout";
 
 const HomePage = ()=>{
     return (
     <section>
-        <ul>
-            <li>
-              <Link to="/">Songs</Link>
-            </li>
-            <li>
-              <Link to="/playlists">PlayLists</Link>
-            </li>
-        </ul>
-        <Switch >
-            <PrivateRoute exact path="/playlists">
-                <PlayLists></PlayLists>
-            </PrivateRoute>
-            <Route exact path="/">
-                <SongList></SongList>
-            </Route>
-        </Switch>
+        <Center>
+            <Navigation></Navigation>
+        </Center>
+        <Box>
+            <Switch>
+                <PrivateRoute path="/playlists/:id">
+                    <EditPlayList></EditPlayList>
+                </PrivateRoute>
+                <PrivateRoute path="/playlists">
+                    <PlayLists></PlayLists>
+                </PrivateRoute>
+                <Route exact path="/">
+                    <SongList></SongList>
+                </Route>
+            </Switch>
+        </Box>
+        
     </section>
     )
 }
