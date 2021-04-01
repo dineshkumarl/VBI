@@ -1,4 +1,4 @@
-import { Button, Stack, Box } from "@chakra-ui/react";
+import { Button, Box } from "@chakra-ui/react";
 
 export const ToggleButton = ({children, isOn, onChange, ...rest})=>{
     return (

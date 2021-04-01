@@ -15,7 +15,7 @@ const mockSongList = [{}, {}, {}, {}]
 
 
 const Edit =()=>{
-    const [songsList, setSongsList] = useState(()=>mockSongList);
+    const [songsList] = useState(()=>mockSongList);
 
     const [isOn, setToggleOn] = useState(false);
 
