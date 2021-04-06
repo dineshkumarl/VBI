@@ -4,9 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "cd client && npm run build && cd ..",
     "start": "node server/index.js",
-    "start-dev": "nodemon server/index.js",
+    "start-dev": "npm run build && nodemon server/index.js",
     "start-dev-debug": "nodemon --inspect server/index.js",
+    "cypress":"./node_modules/.bin/cypress open",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -23,7 +25,6 @@
     "node": "14.x"
   },
   "dependencies": {
-    "@chakra-ui/icons": "^1.0.8",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
     "dotenv": "^8.2.0",
@@ -32,11 +33,11 @@
     "express-session": "^1.17.1",
     "graphql": "^15.5.0",
     "lodash.get": "^4.4.2",
-    "mongoose": "^5.12.2",
-    "react-router-dom": "^5.2.0"
+    "mongoose": "^5.12.2"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
+    "cypress": "^7.0.0",
     "nodemon": "^2.0.7"
   }
 }

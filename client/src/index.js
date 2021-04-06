@@ -4,18 +4,19 @@ import {
   BrowserRouter as Router
 } from "react-router-dom";
 import App from './App';
-import {AuthProvider} from './Login/context.js';
-import { ChakraProvider } from "@chakra-ui/react"
+// import {AuthProvider} from './Login/context.js';
+// import { ChakraProvider } from "@chakra-ui/react";
+// import {AppProgressIndicatorProvider} from './App/Common/AppProgressIndicator';
+// import {createStore} from './App/reducer/';
 // import reportWebVitals from './reportWebVitals';
 
+// const store = createStore();
+
 ReactDOM.render(
-    <ChakraProvider>
-      <AuthProvider>
-        <Router>
-            <App />
-        </Router>
-      </AuthProvider>
-    </ChakraProvider>,
+<Router>
+  <App />
+  </Router>
+,
   document.getElementById('root')
 );
 

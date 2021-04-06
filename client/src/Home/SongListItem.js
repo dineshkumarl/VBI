@@ -37,9 +37,10 @@ export const SongListItemWithAction = ({actionComponent})=>{
 }
 
 const SongListItem = (props)=>{
+    let i =0;
     return (<SongListBox cursor="default" >
         <Box w="70%">
-            <SongInfo key={props.key}></SongInfo>
+            <SongInfo key={'sample_'+i}></SongInfo>
         </Box>
         <Center w="30%">
             <SongDurationText></SongDurationText>

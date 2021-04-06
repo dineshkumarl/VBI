@@ -13,7 +13,7 @@ const VBIMenu = ()=>{
                 size="sm"
             />
             <MenuList>
-                {(!user.name)&&(<MenuItem as={RouteLink} to="/login">Login</MenuItem>)}
+                {(!user.name)&&(<MenuItem id="loginButton" as={RouteLink} to="/login">Login</MenuItem>)}
                 {(user.name)&&(<MenuItem as={RouteLink} to="/login">Logout</MenuItem>)}
             </MenuList>
         </Menu>
