@@ -1,5 +1,6 @@
 import { Box, Center, Flex,Text } from "@chakra-ui/layout";
 import {listItemInteractive} from '../App/styles/global';
+import _get from 'lodash.get';
 
 export const SongListBox = ({children ,...rest})=>(
     <Flex  borderWidth="1px" marginLeft="10" marginRight="10" mt="2" mb="3" px="4px" {...listItemInteractive} {...rest} >
@@ -7,15 +8,16 @@ export const SongListBox = ({children ,...rest})=>(
     </Flex>)
 
 export const SecondaryText = ({children ,...rest})=>(
-    <Text fontStyle="italic" paddingLeft="2" paddingBottom="1" fontSize="xs" color={children.color || "gray.500"} {...rest}>{children}</Text>
+    <Text fontStyle="italic" paddingLeft="2" paddingBottom="1" fontSize="xs" color={rest.color || "gray.500"} {...rest}>{children}</Text>
 )
 
-export const SongInfo = ()=>{
-    return ([
-            <Text padding="2">Song Title</Text>,
-            <SecondaryText>Singers</SecondaryText>,
-            <SecondaryText color="gray.300">Album</SecondaryText>
-        ])
+export const SongInfo = ({title, singers, albumName})=>{
+    const singersNames = (singers || []).map((singer)=>singer.name).join(', ')
+    return (<>
+            <Text padding="2">{title}</Text>
+            <SecondaryText>{singersNames}</SecondaryText>
+            <SecondaryText color="gray.300">{albumName}</SecondaryText>
+    </>)
 }
 
 export const SongDurationText = ()=>{
@@ -36,11 +38,10 @@ export const SongListItemWithAction = ({actionComponent})=>{
     </SongListBox>)
 }
 
-const SongListItem = (props)=>{
-    let i =0;
+const SongListItem = ({id, title, singers, album})=>{
     return (<SongListBox cursor="default" >
         <Box w="70%">
-            <SongInfo key={'sample_'+i}></SongInfo>
+            <SongInfo title={title} singers={singers} albumName={_get(album,'name')} key={'song_'+id}></SongInfo>
         </Box>
         <Center w="30%">
             <SongDurationText></SongDurationText>

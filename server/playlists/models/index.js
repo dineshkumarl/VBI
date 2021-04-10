@@ -5,6 +5,10 @@ const playListSchema = mongoose.Schema({
         type: Number,
         required:true
     },
+    createdBy:{
+        type: String,
+        required:true
+    },
     name:{
         type: String,
         required:true

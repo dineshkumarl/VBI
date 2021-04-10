@@ -11,12 +11,12 @@ POST http://localhost:3001/user/login
 Content-Type: application/json
 
 {
-    "username":"sample5@sample.com",
-    "password":"password"
+    "username":"s@s.s",
+    "password":"s"
 }
 
 ####
-POST http://localhost:3001/user/check
+GET http://localhost:3001/user/session
 Content-Type: application/json
 
 ####

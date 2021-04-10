@@ -1,30 +1,43 @@
-import {Input, Button, FormControl, FormLabel, Box, Center, HStack, VStack } from "@chakra-ui/react";
-import { useEffect } from "react";
+import {Input, Button, FormControl, FormLabel, Box, Center, HStack, VStack, FormErrorMessage } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { useHistory } from 'react-router-dom'
 import { useAuth } from "./hooks/auth";
 
 export const LoginPage = ()=>{
-    const { logOut } = useAuth();
+    const { logIn, logOut } = useAuth();
+    const history = useHistory();
+    const [userName, setUserName] = useState('');
+    const [password, setPassword] = useState('');
+    const [formError, setFormError] = useState(false);
     
-    const formSubmit = (e) => {
-      e.preventDefault();
-    }
-
     useEffect(()=>{
         logOut();
-    },[logOut])
+    },[]);
+
+    const formSubmit = async (e) => {
+      e.preventDefault();
+      const [error] = await logIn({userName, password});
+      if(error){
+        setFormError(true);
+      }else{
+        setFormError(false);
+        history.push('/');
+      }
+    }
 
     return (
       <Center height="100vh">
         <Box border="1px" padding="5" borderColor="gray.200" borderRadius="10">
               <form onSubmit={formSubmit}>
                   <VStack>
+                      {(formError)&&(<FormErrorMessage>Invalid username or password</FormErrorMessage>)}
                       <FormControl isRequired>
                               <FormLabel htmlFor="email">Username</FormLabel>
-                              <Input id="email" type="email" placeholder="example@example.com" />
+                              <Input id="email" name="email" type="email" onChange={(e)=>{setUserName(e.target.value)}} placeholder="example@example.com" />
                           </FormControl>
                           <FormControl isRequired>
                                   <FormLabel htmlFor="password">Password</FormLabel>
-                                      <Input id="password" name="password" type="password" />
+                                      <Input id="password" onChange={(e)=>{setPassword(e.target.value)}} name="password" type="password" />
                                       {/* {(form.errors)&&(<FormErrorMessage>{form.errors.password}</FormErrorMessage>)} */}
                               </FormControl>
                   </VStack>

@@ -1,4 +1,14 @@
 const User = require('../models');
+const _get = require('lodash.get');
+
+const checkUserLoggedIn = async(session)=>{
+    const userName = _get(session, 'user.userName');
+    if(!userName){
+        return false;
+    }else{
+        return true;
+    }
+}
 
 const getUser = async (userName)=>{
     const existingUser = await User.findOne({userName : userName});
@@ -42,4 +52,4 @@ const registerUser = async (userName, password)=>{
 }
 
 
-module.exports = {registerUser, checkUserAuthentic}
+module.exports = {registerUser, checkUserAuthentic, checkUserLoggedIn}

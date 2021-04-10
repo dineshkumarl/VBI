@@ -4,7 +4,7 @@ import { useProvideAuth } from "./hooks/auth";
 export const authContext = createContext();
 
 export const AuthProvider = ({children})=>{
-    const auth = useProvideAuth()
+    const auth = useProvideAuth();
 
     return (
         <authContext.Provider value={auth}>

@@ -29,7 +29,6 @@ const Navigation = ()=>{
         return ROUTE_MAP[getSanitizedPathName()]
     })
     useEffect(()=>{
-        console.log()
         setActiveElementIndex(ROUTE_MAP[getSanitizedPathName()]);
     },[getSanitizedPathName])
 

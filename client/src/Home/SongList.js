@@ -9,7 +9,7 @@ const Songs =()=>{
     const [isLoading, setIsLoading] = useState(false);
     
     const getSongsList = useCallback(()=>{
-        return homePage.songsList.map((value, i)=><Song key={i}></Song>)
+        return homePage.songsList.map((value, i)=><Song {...value} key={i}></Song>)
     },[homePage.songsList]);
 
     const songListUpdate = useCallback((list)=>{

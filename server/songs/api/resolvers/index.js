@@ -1,9 +1,10 @@
 const Song = require('../../models');
 const Album = require('../../../app/models/albums');
 const Singer = require('../../../app/models/singers');
-const songListResolver = async ()=>{
+const songListResolver = async (song, args)=>{
+    const titleRegEx = new RegExp(`^${args.title}`,'i');
     try {
-        const songsInDB = await Song.find({},{_id:0});
+        const songsInDB = await Song.find({title:titleRegEx},{_id:0});
         return songsInDB;
     }catch(e){
         console.log("caught error in the songlist resolver :: ", e);

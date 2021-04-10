@@ -1,8 +1,20 @@
-
+import http from '../../utilities/http';
 export const logIn = async ({userName, password})=>{
-   return Promise.resolve(['Error']);
+   try{
+       return await http.httpPost('/user/login', {"username":userName, "password":password});
+   }catch(e){
+       return {message: 'Error in login'};
+   }
+}
+
+export const getSession = async ()=>{
+    try{
+        return await http.httpGet('/user/session');
+    }catch(e){
+        return {message: 'invalid session'}
+    }
 }
 
 export const logOut = async ()=>{
-    return Promise.resolve(['Error']);
+    return await http.httpGet('/user/logout');
 }

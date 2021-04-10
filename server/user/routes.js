@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const _get = require('lodash.get');
 const {validateUserEmail, validateUserCreds} = require('./middlewares');
 const {registerUser, checkUserAuthentic} = require('./api'); 
 
@@ -15,9 +16,8 @@ router.post('/user/register', validateUserEmail, async(req,res)=>{
     }
 })
 
-router.post('/user/check', (req, res)=>{
-    console.log(req.session)
-    res.json({user : req.session.user})
+router.get('/user/session', (req, res)=>{
+    res.json({user : _get(req,'session.user')})
 })
 
 router.post('/user/login', validateUserCreds, async (req,res)=>{

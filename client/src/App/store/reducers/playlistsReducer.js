@@ -1,7 +1,7 @@
 const playListReducer = (state, action)=>{
     switch(action.type) {
         case "UPDATE_PLAYLISTS_LIST":
-          return {...state, playlists: action.value};
+          return {...state, list: action.value};
         default:
           return state;
       } 
