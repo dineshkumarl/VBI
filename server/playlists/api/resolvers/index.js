@@ -1,4 +1,5 @@
 const Song =  require('../../../songs/models');
+const ObjectID = require('mongodb').ObjectID;
 const PlayList = require('../../models');
 const {checkUserLoggedIn} = require('../../../user/api');
 const _get = require('lodash.get');
@@ -18,9 +19,9 @@ const playListResolver = async (query, args, request)=>{
             createdBy: userName
         };
         if(args.id){
-            queryObj.id = args.id;
+            queryObj._id =  ObjectID(args.id);
         }
-        const playlistInDB = await PlayList.find(queryObj, {_id:0});
+        const playlistInDB = await PlayList.find(queryObj);
         return playlistInDB;
     }catch(e){
         console.log("caught error in the playlist resolver :: ", e);

@@ -22,7 +22,7 @@ const albumResolver = async (song)=>{
 
 const singersResolver = async (song)=>{
     try{
-        const singers = await Singer.find({id:{$in:song.singers || [] }},{_id:0, id:0});
+        const singers = await Singer.find({_id:{$in:song.singers || [] }},{_id:0, id:0});
         return singers;
     }catch(e){
         console.log("caught error in the song.singers resolver :: ", e);

@@ -10,7 +10,7 @@ const vbiQuery = new GraphQLObjectType({
         playlists:{
             type: GraphQLList(PlayListType),
             args:{
-                id:{type:GraphQLInt}
+                id:{type:GraphQLString}
             },
             resolve:playListResolver
         },
