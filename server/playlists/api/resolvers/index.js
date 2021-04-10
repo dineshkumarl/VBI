@@ -33,7 +33,6 @@ const createPlayListResolver = async(query, args, request)=>{
     if(isUserLoggedIn){
         userName = _get(request,'session.user.userName');
         const playListObject = {
-            id:1,
             name:args.name,
             createdBy: userName,
             created: new Date(),
