@@ -1,10 +1,6 @@
 const mongoose = require('mongoose');
 
 const albumSchema = mongoose.Schema({
-    id:{
-        type: Number,
-        required:true
-    },
     name:{
         type: String,
         required:true
@@ -17,4 +13,4 @@ const albumSchema = mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model("Album", albumSchema);
+module.exports = mongoose.model("Albums", albumSchema);

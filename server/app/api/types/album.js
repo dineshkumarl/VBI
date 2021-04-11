@@ -6,7 +6,7 @@ const AlbumType = new GraphQLObjectType({
     name:"album",
     description:"",
     fields:()=>({
-        id:{ type: GraphQLNonNull(GraphQLString)},
+        _id:{type: GraphQLNonNull(GraphQLString)},
         name: {type: GraphQLNonNull(GraphQLString)},
         description:{type: GraphQLString},
         songs: {

@@ -8,7 +8,7 @@ const SongType = new GraphQLObjectType({
     name:"song",
     description:"",
     fields:()=>({
-        id:{type: GraphQLNonNull(GraphQLString)},
+        _id:{type: GraphQLNonNull(GraphQLString)},
         title: {type: GraphQLString},
         singers:{
            type:GraphQLList(SingerType),

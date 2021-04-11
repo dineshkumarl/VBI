@@ -8,7 +8,7 @@ const PlayListType = new GraphQLObjectType({
     name:"playlist",
     description:"",
     fields:()=>({
-        id:{type: GraphQLNonNull(GraphQLString)},
+        _id:{type: GraphQLNonNull(GraphQLString)},
         name: {type: GraphQLString},
         created:{
            type:DateType

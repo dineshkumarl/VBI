@@ -24,10 +24,10 @@ export const SongDurationText = ()=>{
     return (<Text>{"00:10:00"}</Text>)
 }
 
-export const SongListItemWithAction = ({actionComponent})=>{
-    return (<SongListBox >
+export const SongListItemWithAction = ({id, title, singers, album, actionComponent})=>{
+    return (<SongListBox key={id} >
         <Box w="70%">
-            <SongInfo></SongInfo>
+            <SongInfo title={title} singers={singers} albumName={_get(album,'name')} key={'song_'+id}></SongInfo>
         </Box>
         <Center w="20%">
             <SongDurationText></SongDurationText>
@@ -39,7 +39,7 @@ export const SongListItemWithAction = ({actionComponent})=>{
 }
 
 const SongListItem = ({id, title, singers, album})=>{
-    return (<SongListBox cursor="default" >
+    return (<SongListBox key={id} cursor="default" >
         <Box w="70%">
             <SongInfo title={title} singers={singers} albumName={_get(album,'name')} key={'song_'+id}></SongInfo>
         </Box>

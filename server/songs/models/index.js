@@ -1,10 +1,6 @@
 const mongoose = require('mongoose');
 
 const songSchema = mongoose.Schema({
-    id:{
-        type: Number,
-        required:true
-    },
     title:{
         type: String,
         required:true
@@ -17,4 +13,4 @@ const songSchema = mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model("Song", songSchema);
+module.exports = mongoose.model("Songs", songSchema);

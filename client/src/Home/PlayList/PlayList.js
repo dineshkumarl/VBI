@@ -60,7 +60,7 @@ const PlayLists =()=>{
     },[])
 
     const getPlayListsComponents = useCallback(()=>{
-      return _get(state,'playLists.list',[]).map((value, i)=>(<PlayListItem key={i} />))
+      return _get(state,'playLists.list',[]).map((value)=>(<PlayListItem name={value.name} created={value.created} id={value._id} key={value.id} />))
     },[_get(state,'playLists.list.length',0)]);
 
     const updatePlayList = useCallback((newPlayList)=>{

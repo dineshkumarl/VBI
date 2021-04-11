@@ -7,7 +7,8 @@ const initialState = {
   },
   playLists:{
     list:[],
-    currentPlayListIndex:-1
+    searchedSongList:[],
+    currentSongList:[]
   }
 };
 

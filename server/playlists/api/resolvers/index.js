@@ -5,7 +5,7 @@ const {checkUserLoggedIn} = require('../../../user/api');
 const _get = require('lodash.get');
 const songListResolver = async (playlist)=>{
     try{
-       const songListInDB = await Song.find({_id: {$in:playlist.songs}},{_id:0});
+       const songListInDB = await Song.find({_id: {$in:playlist.songs}});
        return songListInDB;
     }catch(e){
         console.log("caught error in the song resolver - playlist resolver :: ", e);
@@ -87,7 +87,7 @@ const addSongToPlaylist = async (query, {songId, playListId}, request) =>{
                     if(error){
                         throw new Error(error);
                     }else{
-                       await PlayList.updateOne({id:playListId, createdBy:userName},{songs:newPlayList});
+                       await PlayList.updateOne({id:playListId, createdBy:userName, lastModified: new Date()},{songs:newPlayList});
                        playList = await PlayList.findOne({id:playListId});
                     }
                     return playList;
