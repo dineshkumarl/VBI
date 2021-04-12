@@ -9,8 +9,8 @@ import {Box,Button, Center, Modal,
 import PlayListItem from './PlayListItem';
 import { AddIcon } from '@chakra-ui/icons';
 import { useCallback,  useEffect,  useMemo,  useState } from 'react';
-import {useStore} from '../../App/store/useStore';
-import {createPlayList, getPlayLists} from '../actions/playlist';
+import {useStore} from '../App/store/useStore';
+import {createPlayList, getPlayLists} from './actions/playlist';
 import _get from 'lodash.get';
 
 const CreatePlayListModal = ({onClose, playListCreateSuccess, payListCreateFailed, ...rest})=>{
@@ -46,8 +46,9 @@ const CreatePlayListModal = ({onClose, playListCreateSuccess, payListCreateFaile
 
 const PlayLists =()=>{
     const { isOpen, onOpen, onClose } = useDisclosure();
-
     const {state, dispatch} = useStore();
+
+    const currentPlayLists = _get(state,'playLists.list');
 
     useEffect(async ()=>{
       const [error, {playlists}] =  await getPlayLists();
@@ -64,11 +65,10 @@ const PlayLists =()=>{
     },[_get(state,'playLists.list.length',0)]);
 
     const updatePlayList = useCallback((newPlayList)=>{
-      let currentPlayLists = _get(state,'playLists.list',[]);
-      currentPlayLists.push(newPlayList)
-      dispatch({type:'UPDATE_PLAYLISTS_LIST', value: currentPlayLists});
+      const newPlayLists = (currentPlayLists || []).concat([newPlayList])
+      dispatch({type:'UPDATE_PLAYLISTS_LIST', value: newPlayLists});
       onClose();
-    },[])
+    },[currentPlayLists])
     
     return (<Box>
         <CreatePlayListModal isOpen={isOpen} onClose={onClose} playListCreateSuccess={updatePlayList} payListCreateFailed={()=>null} />

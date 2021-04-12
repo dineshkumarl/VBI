@@ -14,7 +14,7 @@ export const SecondaryText = ({children ,...rest})=>(
 export const SongInfo = ({title, singers, albumName})=>{
     const singersNames = (singers || []).map((singer)=>singer.name).join(', ')
     return (<>
-            <Text padding="2">{title}</Text>
+            <Text data-title={title} padding="2">{title}</Text>
             <SecondaryText>{singersNames}</SecondaryText>
             <SecondaryText color="gray.300">{albumName}</SecondaryText>
     </>)

@@ -5,10 +5,12 @@
   "main": "index.js",
   "scripts": {
     "build": "cd client && npm run build && cd ..",
-    "start": "node server/index.js",
-    "start-dev": "nodemon server/index.js",
-    "start-dev-debug": "nodemon --inspect server/index.js",
-    "cypress":"./node_modules/.bin/cypress open",
+    "start": "npm run build && node -r dotenv/config server/index.js",
+    "start-test": "npm run build && node -r dotenv/config server/index.js dotenv_config_path=test.env",
+    "start-dev": "nodemon -r dotenv/config server/index.js",
+    "start-dev-debug": "nodemon -r dotenv/config --inspect server/index.js",
+    "cy:ui": "./node_modules/.bin/cypress open",
+    "cy:run": "./node_modules/.bin/cypress run -- --record --spec ./cypress/integration/vbi/**/*_spec.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -38,6 +40,7 @@
   "devDependencies": {
     "cross-env": "^7.0.3",
     "cypress": "^7.0.0",
+    "mongo-seeding": "^3.6.0",
     "nodemon": "^2.0.7"
   }
 }

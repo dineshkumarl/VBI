@@ -1,4 +1,4 @@
-require('dotenv').config();
+// require('dotenv').config();
 
 const app = require('./app/index');
 const mongoose = require('mongoose');

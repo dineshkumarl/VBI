@@ -69,17 +69,17 @@ const checkDuplicateAndGetNewList = async (songsListFromPlayList, song)=>{
     }
 }
 
-const addSongToPlaylist = async (query, {songId, playListId}, request) =>{
+const addSongToPlaylist = async (query, {songId, playlistId}, request) =>{
     let userName;
     const isUserLoggedIn =  await checkUserLoggedIn(request.session);
     try{
         if(isUserLoggedIn){
             userName = _get(request,'session.user.userName');
-            const [song] = await Song.find({id: songId});
+            const [song] = await Song.find({_id: songId});
             if(!song){
                 throw new Error('Invalid Song id.');
             }else{
-                let [playList] = await PlayList.find({id:playListId, createdBy:userName});
+                let [playList] = await PlayList.find({_id:playlistId, createdBy:userName});
                 if(!playList){
                     throw new Error('Invalid Playlist id.')
                 }else{
@@ -87,8 +87,8 @@ const addSongToPlaylist = async (query, {songId, playListId}, request) =>{
                     if(error){
                         throw new Error(error);
                     }else{
-                       await PlayList.updateOne({id:playListId, createdBy:userName, lastModified: new Date()},{songs:newPlayList});
-                       playList = await PlayList.findOne({id:playListId});
+                       await PlayList.updateOne({_id:playlistId, createdBy:userName},{songs:newPlayList, lastModified: new Date()});
+                       playList = await PlayList.findOne({_id:playlistId});
                     }
                     return playList;
                 }
@@ -97,9 +97,41 @@ const addSongToPlaylist = async (query, {songId, playListId}, request) =>{
             throw new Error('Invalid Session, Please Login to add songs to the playlist')
         }
     }catch(e){
-        console.log("caught error in the song resolver - playlist resolver :: ", e.message);
+        console.log("caught error in the resolver - add song in playlist resolver :: ", e.message);
         throw new Error(e.message);
     }
 }
 
-module.exports = {songListResolver, playListResolver, createPlayListResolver, addSongToPlaylist}
+const deleteSongFromPlayList = async (query, {songId, playlistId}, request)=>{
+    let userName;
+    const isUserLoggedIn =  await checkUserLoggedIn(request.session);
+    try{
+        if(isUserLoggedIn){
+            userName = _get(request,'session.user.userName');
+            const [song] = await Song.find({_id: songId});
+            if(!song){
+                throw new Error('Invalid Song id')
+            }else{
+                let [playList] = await PlayList.find({_id:playlistId, createdBy:userName});
+                if(!playList){
+                    throw new Error('Invalid Playlist id.')
+                }else{
+                    const deletedSongList = (playList.songs || []).filter((songIdFromPlayList)=> songIdFromPlayList.toString() !== songId);
+
+                    await PlayList.updateOne({_id:playlistId, createdBy:userName},{songs:deletedSongList, lastModified: new Date()});
+
+                    playList = await PlayList.findOne({_id:playlistId});
+                }
+                return playList;
+            }
+        }else{
+            throw new Error('Invalid Session, Please Login to delete songs to the playlist')
+        }
+
+    }catch(e){
+        console.log("caught error in the resolver - delete song in playlist  resolver :: ", e.message);
+        throw new Error(e.message);
+    }
+}
+
+module.exports = {songListResolver, playListResolver, createPlayListResolver, addSongToPlaylist, deleteSongFromPlayList}

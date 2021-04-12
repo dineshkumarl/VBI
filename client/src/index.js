@@ -5,8 +5,8 @@ import {
 } from "react-router-dom";
 import App from './App';
 // import {AuthProvider} from './Login/context.js';
-// import { ChakraProvider } from "@chakra-ui/react";
-// import {AppProgressIndicatorProvider} from './App/Common/AppProgressIndicator';
+import { ChakraProvider } from "@chakra-ui/react";
+import {AppProgressIndicatorProvider} from './App/Common/AppProgressIndicator';
 // import {createStore} from './App/reducer/';
 // import reportWebVitals from './reportWebVitals';
 
@@ -14,7 +14,11 @@ import App from './App';
 
 ReactDOM.render(
 <Router>
-  <App />
+    <ChakraProvider>
+      <AppProgressIndicatorProvider>
+        <App />
+      </AppProgressIndicatorProvider>
+    </ChakraProvider>
   </Router>
 ,
   document.getElementById('root')

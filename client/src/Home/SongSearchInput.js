@@ -24,7 +24,7 @@ const SongSearchInput = ({songListUpdate, loadFlagUpdate, rightElement, onChange
       
     return (<Box m="3" {...rest}>
         <InputGroup>
-            <Input onChange={searchTextChange} placeholder="Search for Songs..." size="lg" pr={rightElement ? '5rem': ''} />
+            <Input id="songSearch" onChange={searchTextChange} placeholder="Search for Songs..." size="lg" pr={rightElement ? '5rem': ''} />
             {(rightElement) && (<InputRightElement width="5rem">
                 {rightElement}
             </InputRightElement>)}

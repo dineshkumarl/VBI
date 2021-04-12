@@ -4,7 +4,6 @@ import {
     useLocation
   } from "react-router-dom";
 
-import { ChakraProvider } from "@chakra-ui/react";
 import { AuthProvider } from '../Login/context.js';
 import StoreProvider from './store/useStore';
   
@@ -13,9 +12,8 @@ import Header from './Header';
 
 import HomePage from '../Home';
 import LoginPage from '../Login';
-import {AppProgressIndicator, progressIndContext, AppProgressIndicatorProvider} from './Common/AppProgressIndicator/';
+import {AppProgressIndicator, useProgressIndicator} from './Common/AppProgressIndicator/';
 import { Box } from "@chakra-ui/layout";
-import { useContext } from "react";
 
 const HEADERLESS_PATHNAMES = {
     '/login':1
@@ -23,12 +21,10 @@ const HEADERLESS_PATHNAMES = {
 
 const App = ()=>{
     const {pathname:currentPathName} = useLocation();
-    const {showingProgressIndicator} = useContext(progressIndContext);
+    const {showingProgressIndicator} = useProgressIndicator();
     return (
-        <ChakraProvider>
             <StoreProvider>
                 <AuthProvider>
-                    <AppProgressIndicatorProvider>
                         <Box>
                             {(showingProgressIndicator) && (<AppProgressIndicator />)}
                             {(!HEADERLESS_PATHNAMES[currentPathName])&&(<Header></Header>)}
@@ -42,10 +38,8 @@ const App = ()=>{
                             </Switch>
                             {/* {(!HEADERLESS_PATHNAMES[currentPathName])&&(<Footer></Footer>)} */}
                         </Box>
-                    </AppProgressIndicatorProvider>
                 </AuthProvider>
             </StoreProvider>
-        </ChakraProvider>
     )
 }
 

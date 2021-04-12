@@ -1,20 +1,20 @@
-import { Box, Button, Flex, Spacer, Link, Center } from '@chakra-ui/react';
-import SongSearchInput from '../SongSearchInput';
-import {SongListItemWithAction} from '../SongListItem';
+import { Box, Button, Flex, Spacer, Link, Center, useToast } from '@chakra-ui/react';
+import SongSearchInput from '../Home/SongSearchInput';
+import {SongListItemWithAction} from '../Home/SongListItem';
 import { useCallback, useEffect, useState } from 'react';
 import { Link as RouteLink, Route, Switch, useParams, useRouteMatch } from 'react-router-dom';
 import _get from 'lodash.get';
-import {getPlayListDetailById} from '../actions/playlist';
+import {getPlayListDetailById, deleteSongIdInPlaylist} from './actions/playlist';
 
-import {ToggleButton} from '../../App/Common/ToggleButton'
-import {useProgressIndicator} from '../../App/Common/AppProgressIndicator';
-import { useStore } from '../../App/store/useStore';
+import {ToggleButton} from '../App/Common/ToggleButton'
+import {useProgressIndicator} from '../App/Common/AppProgressIndicator';
+import { useStore } from '../App/store/useStore';
+import AddSongButton from './AddSongButton';
+import DeleteSongButton from './DeleteSongButton';
 
 const PlayListActionButton = (props)=>(<Button bg="teal.400" color="white" mr="4" _hover={
     {bg:"teal.500"}
 } {...props} >{props.children}</Button>);
-
-const mockSongList = [{}, {}, {}, {}]
 
 
 const EditPlayList =()=>{
@@ -22,6 +22,7 @@ const EditPlayList =()=>{
     // const [songsList, setSongsList] = useState(()=>mockSongList);
     const [isOn, setToggleOn] = useState(false);
     const {id} = useParams();
+    const toast = useToast();
     const { showProgressIndicator, hideProgressIndicator} = useProgressIndicator();
     const playListDetailsMatch = useRouteMatch('/playlists/:id');
 
@@ -33,26 +34,40 @@ const EditPlayList =()=>{
         dispatch({type:'UPDATE_SEARCHED_SONG_LIST', value: list});
     },[dispatch])
 
+    const updatePlayListDetail = useCallback(async ()=>{
+        const [error, data] = await getPlayListDetailById(id);
+        if(!error){
+            setSongsList(_get(data,'[0].songs'));
+        }else{
+            //Display Error message
+            setSongsList([]);
+        }
+    },[id])
+
+    const deleteSongInPlaylist = useCallback(async(value, playlistId)=>{
+        showProgressIndicator();
+        const [error, data]  = await deleteSongIdInPlaylist(value._id, playlistId);
+        if(!error){
+            setSongsList(_get(data,'songs'));
+        }else{
+            //Display Error message
+            // setSongsList([]);
+        }
+        hideProgressIndicator();
+    },[dispatch])
+
     useEffect(async ()=>{
         if(playListDetailsMatch.isExact){
-           const [error, data] = await getPlayListDetailById(id);
-           if(!error){
-               setSongsList(_get(data,'[0].songs'));
-           }else{
-               setSongsList([]);
-           }
+            //landed on edit songs route, load the playlist detail
+            showProgressIndicator();
+            await updatePlayListDetail();
+            hideProgressIndicator();
         }else{
+            //landed on add songs route, so reset previosly searched list 
             setSearchedSongList([]);
         }
     },[playListDetailsMatch.isExact])
 
-    const deleteSongListInPlaylist = (playlistId, value)=>{
-        console.log(playlistId, value);
-    }
-
-    const addSongListInPlaylist = (playlistId, value)=>{
-        console.log(playlistId, value);
-    }
 
     const getSongListWithDeleteAction = useCallback(()=>{
         if(!playLists.currentSongList || playLists.currentSongList.length ===0){
@@ -63,7 +78,7 @@ const EditPlayList =()=>{
                     <SongListItemWithAction
                     {...value}
                      actionComponent={
-                         ()=><Link onClick={()=>deleteSongListInPlaylist(id, value)}>Delete</Link>
+                         ()=><DeleteSongButton songId={value._id} playlistId={id}></DeleteSongButton>
                      }>
                      </SongListItemWithAction>)
         }
@@ -78,7 +93,8 @@ const EditPlayList =()=>{
                     <SongListItemWithAction
                     {...value}
                      actionComponent={
-                         ()=><Link onClick={()=>addSongListInPlaylist(id, value)}>Add</Link>
+                         ()=><AddSongButton songId={value._id} playlistId={id} ></AddSongButton>
+                        //  ()=><Link onClick={()=>addSongInPlaylist(value, id)}>Add</Link>
                      }>
                      </SongListItemWithAction>)
         }

@@ -1,6 +1,6 @@
 import { Box, Center, Flex,Text } from "@chakra-ui/layout";
-import {SecondaryText} from '../SongListItem';
-import {listItemInteractive} from '../../App/styles/global';
+import {SecondaryText} from '../Home/SongListItem';
+import {listItemInteractive} from '../App/styles/global';
 import { Link as RouteLink } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { useCallback } from "react";

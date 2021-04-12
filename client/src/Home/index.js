@@ -3,8 +3,8 @@ import {
     Route
   } from "react-router-dom";
 import PrivateRoute from '../Login/PrivateRoute';
-import EditPlayList from './PlayList/EditPlayList';
-import PlayLists from "./PlayList/PlayList";
+import EditPlayList from '../PlayList/EditPlayList';
+import PlayLists from "../PlayList/PlayList";
 import SongList from './SongList';
 import Navigation from './Navigation';
 import { Center, Box } from "@chakra-ui/layout";

@@ -1,6 +1,5 @@
 import {Route, Redirect} from 'react-router-dom'
 import { useContext, useEffect, useState } from 'react';
-import _get from 'lodash.get';
 import {authContext} from './context';
 import {getSession} from './actions/auth';
 
