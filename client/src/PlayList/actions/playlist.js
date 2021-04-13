@@ -32,7 +32,7 @@ export const deleteSongIdInPlaylist = async (songId, playlistId)=>{
 export const getPlayListDetailById = async (id)=>{
     const query = gql.query({
         operation:'playlists',
-        fields: ['_id','name', 'created', {songs:['_id','title', {singers:['name']}, {album:['name']}]}],
+        fields: ['_id','name', 'created', {songs:['_id','title', {singers:['name']}, {album:['name']}, {duration: ['h','m','s']}]}],
         variables:{id}
     })
     const [error, data] = await http.httpPost('/v1/vbi', query);
@@ -48,7 +48,12 @@ export const getPlayLists = async()=>{
         operation:'playlists',
         fields: ['_id','name', 'created']
     })
-    return await http.httpPost('/v1/vbi', query);
+    const [error, data] = await http.httpPost('/v1/vbi', query);
+    if(error){
+        return [error]
+    }else{
+        return [null, data.playlists]
+    }
 }
 
 export const createPlayList = async (name)=>{

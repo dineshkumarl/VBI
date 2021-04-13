@@ -4,7 +4,6 @@ package-lock.json
 
 cypress/videos
 cypress/screenshots
-cypress.json
 
 client/node_mudules/
 client/build/

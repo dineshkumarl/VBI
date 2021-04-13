@@ -18,7 +18,23 @@ context("Home page",()=>{
 
   describe('Menu should - ', ()=>{
      it("have login button", ()=>{
-       cy.visit('http://localhost:3001')
+       cy.visit('http://localhost:3001')       
+       cy.get('#menu-button-vbi-menu').should('have.length', 1)
      })
+
+     it("navigate to login page on clicking the login button", ()=>{
+      cy.visit('http://localhost:3001')
+      
+      cy.get('#menu-button-vbi-menu').click()
+
+      cy.get('.loginButton')
+      .first()
+      .click();
+
+      cy.location().should((location)=>{
+        expect(location.pathname).to.eq('/login')
+      })
+     })
+
   })
 })

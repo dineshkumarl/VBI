@@ -1,7 +1,16 @@
-const { GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLList } = require("graphql");
+const { GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLList, GraphQLInt } = require("graphql");
 const {AlbumType} = require('../../../app/api/types/album');
 const {SingerType} = require('../../../app/api/types/singer');
 const {albumResolver, singersResolver} = require('../resolvers');
+
+const Duration = new GraphQLObjectType({
+    name:"duration",
+    fields:()=>({
+        h:{type:GraphQLInt},
+        m:{type:GraphQLInt},
+        s:{type:GraphQLInt}
+    })
+})
 
 
 const SongType = new GraphQLObjectType({
@@ -17,6 +26,9 @@ const SongType = new GraphQLObjectType({
         album: {
             type: AlbumType,
             resolve:albumResolver
+        },
+        duration:{
+            type: Duration
         }
     })
 })

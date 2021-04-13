@@ -10,6 +10,17 @@ const songSchema = mongoose.Schema({
     },
     albumId:{
         type: mongoose.Types.ObjectId
+    },
+    duration:{
+        h:{
+            type:String
+        },
+        m:{
+            type:String
+        },
+        s:{
+            type:String
+        }
     }
 })
 

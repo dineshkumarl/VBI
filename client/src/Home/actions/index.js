@@ -6,7 +6,7 @@ export const getSongsListBySearchWord = async (searchWord = '')=>{
     const query = gql.query({
         operation: 'songs',
         variables: { title: searchWord },
-        fields: ['_id', 'title', {'singers':['name']}, {'album':['name']}]
+        fields: ['_id', 'title', {'singers':['name']}, {'album':['name']}, {'duration':['h','m','s']}]
       })
     const [error, {songs}] = await http.httpPost('/v1/vbi', query);
     if(error){

@@ -19,10 +19,12 @@ const PlayListActionButton = (props)=>(<Button bg="teal.400" color="white" mr="4
 
 const EditPlayList =()=>{
     const {state:{playLists}, dispatch} = useStore();
-    // const [songsList, setSongsList] = useState(()=>mockSongList);
     const [isOn, setToggleOn] = useState(false);
     const {id} = useParams();
     const toast = useToast();
+    const [playlistName, setPlaylistName] = useState(()=>{
+        return ""
+    })
     const { showProgressIndicator, hideProgressIndicator} = useProgressIndicator();
     const playListDetailsMatch = useRouteMatch('/playlists/:id');
 
@@ -38,23 +40,16 @@ const EditPlayList =()=>{
         const [error, data] = await getPlayListDetailById(id);
         if(!error){
             setSongsList(_get(data,'[0].songs'));
+            setPlaylistName(_get(data,'[0].name', ''))
         }else{
-            //Display Error message
             setSongsList([]);
+            toast({
+                title:"Error in fetching the songs list",
+                duration:3000,
+                status:"error"
+            });
         }
     },[id])
-
-    const deleteSongInPlaylist = useCallback(async(value, playlistId)=>{
-        showProgressIndicator();
-        const [error, data]  = await deleteSongIdInPlaylist(value._id, playlistId);
-        if(!error){
-            setSongsList(_get(data,'songs'));
-        }else{
-            //Display Error message
-            // setSongsList([]);
-        }
-        hideProgressIndicator();
-    },[dispatch])
 
     useEffect(async ()=>{
         if(playListDetailsMatch.isExact){
@@ -94,22 +89,15 @@ const EditPlayList =()=>{
                     {...value}
                      actionComponent={
                          ()=><AddSongButton songId={value._id} playlistId={id} ></AddSongButton>
-                        //  ()=><Link onClick={()=>addSongInPlaylist(value, id)}>Add</Link>
                      }>
                      </SongListItemWithAction>)
         }
     },[playLists.searchedSongList, id])
-
-    // const onToggleClick = ()=>{
-    //     showProgressIndicator();
-    //     setTimeout(()=>{
-    //         hideProgressIndicator();
-    //     },2000)
-    // }
     
     return (<Box>
                 <Switch>
                     <Route exact path="/playlists/:id/addsongs">
+                       <Box m={5}>{playlistName} - Editable</Box>
                        <SongSearchInput 
                        loadFlagUpdate = {()=>{}}
                        songListUpdate = {setSearchedSongList} 
@@ -119,6 +107,7 @@ const EditPlayList =()=>{
                        {getSongListWithAddAction()}
                     </Route>
                     <Route path="/">
+                        <Box  m={5}>{playlistName} - Editable</Box>
                         <Flex>
                             <Spacer />
                             <Box m="2" mr="10">

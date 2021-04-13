@@ -6,15 +6,15 @@ import {useAuth} from '../../Login/hooks/auth'
 const VBIMenu = ()=>{
     const {user} = useAuth();
     return (
-        <Menu>
+        <Menu id="vbi-menu">
             <MenuButton
                 as={Avatar}
                 aria-label="Options"
                 size="sm"
             />
             <MenuList>
-                {(!user.name)&&(<MenuItem id="loginButton" as={RouteLink} to="/login">Login</MenuItem>)}
-                {(user.name)&&(<MenuItem as={RouteLink} to="/login">Logout</MenuItem>)}
+                {(!user.name)&&(<MenuItem className="loginButton" as={RouteLink} to="/login">Login</MenuItem>)}
+                {(user.name)&&(<MenuItem className="logoutButton" as={RouteLink} to="/login">Logout</MenuItem>)}
             </MenuList>
         </Menu>
     )
