@@ -1,4 +1,5 @@
 const User = require('../models');
+const bcrypt = require('bcrypt');
 const _get = require('lodash.get');
 
 const checkUserLoggedIn = async(session)=>{
@@ -17,6 +18,7 @@ const getUser = async (userName)=>{
 
 const checkUserAuthentic = async(userName, password)=>{
     let user = null;
+    let isValidPassword = false;
     try{
        user = await getUser(userName);
     }catch(e){
@@ -25,7 +27,12 @@ const checkUserAuthentic = async(userName, password)=>{
     if(!user){
         return [{code:401, message:'invalid user'}];
     }
-    if(user.password === password){
+    try{
+        isValidPassword = bcrypt.compareSync(password, user.password);
+    }catch(e){
+        return [{code: 500, message: "Error in parsing the credentials"}];
+    }
+    if(isValidPassword){
         return [null, {userName: user.userName, authorizations: user.authorizations}];
     }else{
         return [{code: 401, message: 'User authentication failed'}]
@@ -34,10 +41,17 @@ const checkUserAuthentic = async(userName, password)=>{
 
 const registerUser = async (userName, password)=>{
     const existingUser = await getUser(userName);
+    let hashedPassword;
+    try{
+        hashedPassword = bcrypt.hashSync(password, parseInt(process.env.HASH_ROUND || 10));
+    }catch(e){
+        console.log('Error in hashing the password :: ', e);
+        return [{code:500, message:'Error in parsing the error'}];
+    }
     if(!existingUser){
         const user = new User({
             userName,
-            password
+            password:hashedPassword
         })
         try{
             const savedUser = await user.save();
