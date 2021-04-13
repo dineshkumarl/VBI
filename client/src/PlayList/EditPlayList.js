@@ -16,10 +16,19 @@ const PlayListActionButton = (props)=>(<Button bg="teal.400" color="white" mr="4
     {bg:"teal.500"}
 } {...props} >{props.children}</Button>);
 
+const shuffleArray = (array) =>{
+    for (var i = array.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+}
+
 
 const EditPlayList =()=>{
     const {state:{playLists}, dispatch} = useStore();
-    const [isOn, setToggleOn] = useState(false);
+    const [isShuffleOn, setToggleOn] = useState(false);
     const {id} = useParams();
     const toast = useToast();
     const [playlistName, setPlaylistName] = useState(()=>{
@@ -68,7 +77,10 @@ const EditPlayList =()=>{
         if(!playLists.currentSongList || playLists.currentSongList.length ===0){
             return <Center mt="30" color="gray.500" fontStyle="italic">No Songs in the playlist</Center>
         }else{
-            return (playLists.currentSongList || []).map(
+            const shallowCopy = (playLists.currentSongList || []).slice();
+            if(isShuffleOn)
+               shuffleArray(shallowCopy);
+            return shallowCopy.map(
                 (value)=>
                     <SongListItemWithAction
                     {...value}
@@ -77,7 +89,7 @@ const EditPlayList =()=>{
                      }>
                      </SongListItemWithAction>)
         }
-    },[playLists.currentSongList, id]);
+    },[playLists.currentSongList, id, isShuffleOn]);
 
     const getSongListWithAddAction = useCallback(()=>{
         if(!playLists.searchedSongList || playLists.searchedSongList.length ===0){
@@ -111,7 +123,7 @@ const EditPlayList =()=>{
                         <Flex>
                             <Spacer />
                             <Box m="2" mr="10">
-                                <ToggleButton mr="4" isOn={isOn} onChange={()=>setToggleOn(!isOn)}>Shuffle Play {isOn? "on" :"off"}</ToggleButton>
+                                <ToggleButton mr="4" isOn={isShuffleOn} onChange={()=>setToggleOn(!isShuffleOn)}>Shuffle Play {isShuffleOn? "on" :"off"}</ToggleButton>
                                 <PlayListActionButton as={RouteLink} to={`/playlists/${id}/addsongs`}>Add Song</PlayListActionButton>
                             </Box>
                         </Flex>

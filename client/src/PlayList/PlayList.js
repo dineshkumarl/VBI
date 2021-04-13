@@ -5,7 +5,15 @@ import {Box,Button, Center, Modal,
     ModalFooter,
     ModalBody,
     ModalCloseButton,
-    useDisclosure,Input, useToast } from '@chakra-ui/react';
+    useDisclosure,
+    Input,
+    useToast,
+    Alert,
+    AlertIcon,
+    AlertTitle,
+    AlertDescription,
+    CloseButton
+  } from '@chakra-ui/react';
 import PlayListItem from './PlayListItem';
 import { AddIcon } from '@chakra-ui/icons';
 import { useCallback,  useEffect,  useMemo,  useState } from 'react';
@@ -21,16 +29,19 @@ const CreatePlayListModal = ({onClose, playListCreateSuccess, payListCreateFaile
        return false;
      })
 
+     const [errorInCreatingPlayList, setErrorInCreatingPlayList] = useState(false);
+
      const createClick = useCallback(async ()=>{
        setCreatingFlag(true);
        const [error, playlist] =  await createPlayList(name);
        if(error){
-        payListCreateFailed && payListCreateFailed(error)
+         setErrorInCreatingPlayList(true);
+         payListCreateFailed && payListCreateFailed(error)
        }else{
          playListCreateSuccess && playListCreateSuccess(playlist);
        }
        setCreatingFlag(false);
-     },[name])
+     },[name]);
 
     return (<Modal {...rest} closeOnOverlayClick={false}>
         <ModalOverlay />
@@ -38,7 +49,12 @@ const CreatePlayListModal = ({onClose, playListCreateSuccess, payListCreateFaile
           <ModalHeader>Please Enter a Name</ModalHeader>
           {(creatingFlag)&&(<ModalCloseButton />)}
           <ModalBody>
-            <Input autoComplete="false" variant="filled" placeholder="Name..." onChange={(e)=>{setName(e.target.value)}} />
+            {(errorInCreatingPlayList) && (<Alert mb={3} status="error">
+              <AlertIcon />
+              <AlertTitle mr={2}>Error in creating the playlist</AlertTitle>
+              <CloseButton position="absolute" right="8px" top="8px" onClick={()=>setErrorInCreatingPlayList(false)} />
+            </Alert>)}
+            <Input  autoComplete="false" variant="filled" placeholder="Name..." onChange={(e)=>{setErrorInCreatingPlayList(false); setName(e.target.value)}} />
           </ModalBody>
           <ModalFooter>
             <Button disabled={creatingFlag} variant="ghost" mr={3} onClick={onClose}>

@@ -1,5 +1,10 @@
-import {Input, Button, FormControl, FormLabel, Box, Center, HStack, VStack, FormErrorMessage } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import {Input, Button, FormControl, FormLabel, Box, Center, HStack, VStack, Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
+  CloseButton, 
+  Fade} from "@chakra-ui/react";
+import { useCallback, useEffect, useState } from "react";
 import { useHistory } from 'react-router-dom'
 import { useAuth } from "./hooks/auth";
 
@@ -27,10 +32,16 @@ export const LoginPage = ()=>{
 
     return (
       <Center height="100vh">
-        <Box border="1px" padding="5" borderColor="gray.200" borderRadius="10">
+        <Box border="1px" padding="5" borderColor="gray.200" borderRadius="10" w={360}>
+              {(formError) && (<Fade in={formError} >
+                <Alert status="error" mb={5} >
+                  <AlertIcon />
+                  <AlertTitle mr={2}>Invalid username or password</AlertTitle>
+                  <CloseButton position="absolute" right="8px" top="8px" onClick={()=>setFormError(false)} />
+                </Alert>
+                </Fade>)}
               <form onSubmit={formSubmit}>
                   <VStack>
-                      {(formError)&&(<FormErrorMessage>Invalid username or password</FormErrorMessage>)}
                       <FormControl isRequired>
                               <FormLabel htmlFor="email">Username</FormLabel>
                               <Input id="email" name="email" type="email" onChange={(e)=>{setUserName(e.target.value)}} placeholder="example@example.com" />
