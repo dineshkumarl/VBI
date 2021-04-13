@@ -7,4 +7,6 @@ cypress/screenshots
 
 client/node_mudules/
 client/build/
+client/package-lock.json
 .vscode/launch.json
+test.env
