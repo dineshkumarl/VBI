@@ -3,10 +3,23 @@ const ObjectID = require('mongodb').ObjectID;
 const PlayList = require('../../models');
 const {checkUserLoggedIn} = require('../../../user/api');
 const _get = require('lodash.get');
+
+const sortSongsByOrderArray = (orderArray = [], originalArray = [])=>{
+    const orderArrayShallowCopy = orderArray.slice();
+    const originalArrayShallowCopy = originalArray.slice();
+    let currentSong;
+    while(currentSong = (originalArrayShallowCopy || []).shift()){
+        orderArrayShallowCopy[orderArrayShallowCopy.indexOf(currentSong._id.toString())] = currentSong;
+    }
+    return orderArrayShallowCopy;
+}
+
 const songListResolver = async (playlist)=>{
     try{
+       const songListShallowCopyWithOriginalOrder = (playlist.songs|| []).slice().map((obj)=>obj.toString());
        const songListInDB = await Song.find({_id: {$in:playlist.songs}});
-       return songListInDB;
+       const finalOrderedArray =  sortSongsByOrderArray(songListShallowCopyWithOriginalOrder, songListInDB);
+       return finalOrderedArray;
     }catch(e){
         console.log("caught error in the song resolver - playlist resolver :: ", e);
     }
