@@ -2,6 +2,7 @@ import {Link, useToast} from '@chakra-ui/react';
 import {useCallback } from 'react';
 import { useStore } from '../App/store/useStore';
 import { addSongIdInPlaylist } from './actions/playlist';
+import _get from 'lodash.get';
 import { useProgressIndicator } from '../App/Common/AppProgressIndicator';
 
 const AddSongButton = ({playlistId, songId})=>{
@@ -10,7 +11,7 @@ const AddSongButton = ({playlistId, songId})=>{
     const { showProgressIndicator, hideProgressIndicator} = useProgressIndicator();
     const addSongInPlaylist = useCallback(async (songId, playlistId)=>{
         showProgressIndicator();
-       const [error, data]  = await addSongIdInPlaylist(songId, playlistId);
+       const [error]  = await addSongIdInPlaylist(songId, playlistId);
        if(!error){
         toast({
             title:"Song added successfully",
@@ -19,11 +20,11 @@ const AddSongButton = ({playlistId, songId})=>{
         });
        }else{
            toast({
-               title:"Error in adding song to the playlist",
+               title:(_get(error,'0.message') || "Error in adding song to the playlist"),
                status:"error",
-               duration:4000
+               duration:3000,
+               isClosable:true
             })
-           console.log(error);
        }
        hideProgressIndicator();
     },[dispatch])

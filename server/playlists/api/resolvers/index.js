@@ -77,7 +77,7 @@ const checkDuplicateAndGetNewList = async (songsListFromPlayList, song)=>{
             const newSongsList = [...songsListFromPlayList, song._id];
             return [null, newSongsList]
         }else{
-            return ['the playlist already contains this song']
+            return ['The playlist already contains this song']
         }
     }
 }
