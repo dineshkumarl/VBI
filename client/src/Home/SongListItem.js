@@ -24,7 +24,7 @@ export const SongDurationText = ({h, m, s})=>{
     const hrsTxt = `${h} h:`;
     const minTxt = `${m} m`;
     const scndsText = `${s} s`;
-    return (<Text>{`${h?hrsTxt:''}${m?minTxt:''}${s?scndsText:''}`}</Text>)
+    return (<Text>{`${h?hrsTxt:''} ${m?minTxt:''} ${s?scndsText:''}`}</Text>)
 }
 
 SongDurationText.defaultProps = {h:0, m:0, s:0}
