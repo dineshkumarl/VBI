@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "prebuild":"cd client && npm i && cd ..",
     "build": "cd client && npm run build && cd ..",
     "start": "npm run build && node -r dotenv/config server/index.js",
     "start-test": "npm run build && node -r dotenv/config server/index.js dotenv_config_path=test.env",
