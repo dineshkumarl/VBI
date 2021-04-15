@@ -50,4 +50,14 @@ Here is the deployed running app [link] for given task. In case of running the c
     2. Although the session touching or session extension can be implemented, extending the session on different page is not implemented.
     3. As this is a SPA, on refreshing the page after login in home page will logout the user.
 
+--------------
+
+## New User
+
+- If you want to register/add new user to the app
+    1. open VScode
+    2. Install REST Client extension.
+    3. Open the `request.rest` file and there will be a api section to register (`http://localhost:3001/user/register`)
+    4. set the credentials snd click send request
+
 [link]: <https://vbimusic-ind.herokuapp.com/>
