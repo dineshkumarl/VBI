@@ -10,6 +10,7 @@
     "start-test": "npm run build && node -r dotenv/config server/index.js dotenv_config_path=test.env",
     "start-dev": "nodemon -r dotenv/config server/index.js",
     "start-dev-debug": "nodemon -r dotenv/config --inspect server/index.js",
+    "dataseed":"node -r dotenv/config scripts/seeding/index.js",
     "cy:dataseed":"node -r dotenv/config scripts/seeding/index.js dotenv_config_path=test.env",
     "cy:ui": "npm run cy:dataseed && cypress open",
     "cy:run": "npm run cy:dataseed && cypress run --browser edge -- --record --spec ./cypress/integration/vbi/**/*_spec.js",
